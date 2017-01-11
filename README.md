@@ -15,6 +15,7 @@ This input plugin can work in two modes:
  1. Retrieve the value of database references on a fixed `schedule` (at midnight, every 5 minutes, etc)
  2. Retrieve the value of database references in real-time as it changes 
  (via the [streaming REST API](https://firebase.google.com/docs/database/rest/retrieve-data#section-rest-streaming))
+
 The retrieved data will be stored at the event root level by default (unless the `target` field is configured).
 
 It can be configured very simply as shown below: 
