@@ -94,18 +94,17 @@ class LogStash::Inputs::Firebase < LogStash::Inputs::Base
     @firebase = RestFirebase.new :site => @url,
        :secret => @secret,
        :d => {:auth_data => 'logstash'},
-       :log_method => @logger.method('debug'),
+       :log_method => method(:log),
        # `timeout` in seconds
        :timeout => 10,
        # `max_retries` upon failures. Default is: `0`
        :max_retries => 3,
        # `retry_exceptions` for which exceptions should retry
        # Default is: `[IOError, SystemCallError]`
-       :retry_exceptions =>
-           [IOError, SystemCallError, Timeout::Error],
+       :retry_exceptions => [IOError, SystemCallError, Timeout::Error],
        # `error_callback` would get called each time there's
        # an exception. Useful for monitoring and logging.
-       :error_callback => @logger.method('error'),
+       :error_callback => method(:error),
        # `auth_ttl` describes when we should refresh the auth
        # token. Set it to `false` to disable auto-refreshing.
        # The default is 23 hours.
@@ -117,6 +116,16 @@ class LogStash::Inputs::Firebase < LogStash::Inputs::Base
     @reconnect = true
     @streams = Array.new
   end # def setup_firebase_client!
+
+  private
+  def log(msg)
+    @logger.info(msg)
+  end
+
+  private
+  def error(err)
+    @logger.error(err)
+  end
 
   private
   def setup_queries!
