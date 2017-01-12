@@ -58,8 +58,18 @@ class LogStash::Inputs::Firebase < LogStash::Inputs::Base
   # A Hash of database references to retrieve
   config :refs, :validate => :hash, :required => true
 
-  # Define the target field for placing the received data. If this setting is omitted, the data will be stored at the root (top level) of the event.
+  # The target field for placing the received data. If this setting is omitted, the data will be stored at the root (top level) of the event.
   config :target, :validate => :string, :required => false
+
+  # The number of seconds to wait before the connection times out (default: 10s)
+  config :firebase_timeout, :validate => :number, :default => 10
+
+  # The number of retries to attempt in case of failures (default: 3)
+  config :firebase_retries, :validate => :number, :default => 3
+
+  # The amount of time to wait before refreshing the authentication token, if any (default: 82800s = 23h)
+  # Set to -1 to disable the auto-refresh of the authentication token
+  config :firebase_auth_ttl, :validate => :number, :default => 82800
 
   # The set of streaming events to listen to (possible values are `put`, `patch`, `keep-alive`, `cancel`, `auth_revoked)
   # ([see events](https://firebase.google.com/docs/database/rest/retrieve-data#section-rest-streaming))
@@ -100,20 +110,20 @@ class LogStash::Inputs::Firebase < LogStash::Inputs::Base
        :secret => @secret,
        :d => {:auth_data => 'logstash'},
        :log_method => method(:log),
-       # `timeout` in seconds
-       :timeout => 10,
-       # `max_retries` upon failures. Default is: `0`
-       :max_retries => 3,
-       # `retry_exceptions` for which exceptions should retry
-       # Default is: `[IOError, SystemCallError]`
-       :retry_exceptions => [IOError, SystemCallError, Timeout::Error],
        # `error_callback` would get called each time there's
        # an exception. Useful for monitoring and logging.
        :error_callback => method(:error),
+       # `timeout` in seconds
+       :timeout => @firebase_timeout,
+       # `max_retries` upon failures. Default is: `0`
+       :max_retries => @firebase_retries,
+       # `retry_exceptions` for which exceptions should retry
+       # Default is: `[IOError, SystemCallError]`
+       :retry_exceptions => [IOError, SystemCallError, Timeout::Error],
        # `auth_ttl` describes when we should refresh the auth
        # token. Set it to `false` to disable auto-refreshing.
        # The default is 23 hours.
-       :auth_ttl => 82800,
+       :auth_ttl => @firebase_auth_ttl > -1 ? @firebase_auth_ttl : false,
        # `auth` is the auth token from Firebase. Leave it alone
        # to auto-generate. Set it to `false` to disable it.
        :auth => false # Ignore auth for this example!
@@ -192,7 +202,7 @@ class LogStash::Inputs::Firebase < LogStash::Inputs::Base
 
   private
   def query_firebase(queue, name, query)
-    @logger.debug? && @logger.debug('Querying Firebase', :url => @url, :name => name, :query => query)
+    @logger.debug('Querying Firebase', :url => @url, :name => name, :query => query) if @logger.debug?
     started = Time.now
 
     @firebase.get(query[:path]) do |data|
