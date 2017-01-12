@@ -89,7 +89,7 @@ The following list enumerates all configuration parameters of the `rets` input:
  * `schedule`: the [schedule specification](#scheduling) determining when the `firebase` input must run (see below for details) (optional)
  * `target`: the name of the field into which to store the retrieved data (default: root) (optional)
  * `metadata_target`: the name of the field into which to store some metadata about the call (default: `@metadata`) (optional)
- * `events`: the set of streaming events to listen to (possible values are `put`, `patch`, `keep-alive`, `cancel`, `auth_revoked) (default: `['put', 'patch']`) 
+ * `events`: the set of streaming events to listen to (possible values are `put`, `patch`, `keep-alive`, `cancel`, `auth_revoked`) (default: `['put', 'patch']`) 
  * `refs`: Any number of named queries mapped to a hash with the following parameters: (at least one required)
    * `path`: the database reference to query
    * `orderBy`: (not supported yet)
