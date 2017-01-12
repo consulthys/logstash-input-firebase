@@ -5,10 +5,10 @@ require 'socket' # for Socket.gethostname
 require 'rufus/scheduler'
 require 'rest-firebase'
 
-# Retrieves data from the Firebase real-time database [via the REST API](https://firebase.google.com/docs/database/rest/retrieve-data).
+# Retrieves data from the Firebase real-time database https://firebase.google.com/docs/database/rest/retrieve-data[via the REST API].
 # This input plugin can work in two modes:
 # 1. Retrieve the value of database references on a fixed schedule (at midnight, every 5 minutes, etc)
-# 2. Retrieve the value of database references as it changes (via the [streaming REST API](https://firebase.google.com/docs/database/rest/retrieve-data#section-rest-streaming))
+# 2. Retrieve the value of database references as it changes (via the https://firebase.google.com/docs/database/rest/retrieve-data#section-rest-streaming[streaming REST API])
 #
 # ==== Example
 # For retrieving database values on a fixed time interval, the config should look like below.
@@ -72,7 +72,7 @@ class LogStash::Inputs::Firebase < LogStash::Inputs::Base
   config :firebase_auth_ttl, :validate => :number, :default => 82800
 
   # The set of streaming events to listen to (possible values are `put`, `patch`, `keep-alive`, `cancel`, `auth_revoked)
-  # ([see events](https://firebase.google.com/docs/database/rest/retrieve-data#section-rest-streaming))
+  # (https://firebase.google.com/docs/database/rest/retrieve-data#section-rest-streaming[see events])
   config :events, :validate => :array, :required => false, :default => ['put', 'patch']
 
   # Schedule of when to periodically poll from the urls
