@@ -14,7 +14,8 @@ Each `firebase` input allows you to retrieve as many references as desired from 
 This input plugin can work in two modes:
  1. Retrieve the value of database references on a fixed `schedule` (at midnight, every 5 minutes, etc)
  2. Retrieve the value of database references in real-time as it changes 
- (via the [streaming REST API](https://firebase.google.com/docs/database/rest/retrieve-data#section-rest-streaming))
+ (via the [streaming REST API](https://firebase.google.com/docs/database/rest/retrieve-data#section-rest-streaming)). 
+ Firebase will push events to Logstash as they occur. Note that to use this mode, the `schedule` setting must be omitted. 
 
 The retrieved data will be stored at the event root level by default (unless the `target` field is configured).
 
@@ -89,7 +90,7 @@ The following list enumerates all configuration parameters of the `rets` input:
  * `schedule`: the [schedule specification](#scheduling) determining when the `firebase` input must run (see below for details) (optional)
  * `target`: the name of the field into which to store the retrieved data (default: root) (optional)
  * `metadata_target`: the name of the field into which to store some metadata about the call (default: `@metadata`) (optional)
- * `events`: the set of streaming events to listen to (possible values are `put`, `patch`, `keep-alive`, `cancel`, `auth_revoked`) (default: `['put', 'patch']`) 
+ * `events`: the set of streaming events to listen to (possible values are `put`, `patch`, `keep-alive`, `cancel`, `auth_revoked) (default: `['put', 'patch']`) 
  * `refs`: Any number of named queries mapped to a hash with the following parameters: (at least one required)
    * `path`: the database reference to query
    * `orderBy`: (not supported yet)
