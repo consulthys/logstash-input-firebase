@@ -88,6 +88,7 @@ The following list enumerates all configuration parameters of the `rets` input:
  * `url`: The Firebase URL endpoint (required)
  * `secret`: The secret to use for authenticating (optional)
  * `schedule`: the [schedule specification](#scheduling) determining when the `firebase` input must run (see below for details) (optional)
+   This setting must be omitted in order to use the streaming mode.
  * `target`: the name of the field into which to store the retrieved data (default: root) (optional)
  * `metadata_target`: the name of the field into which to store some metadata about the call (default: `@metadata`) (optional)
  * `events`: the set of streaming events to listen to (possible values are `put`, `patch`, `keep-alive`, `cancel`, `auth_revoked) (default: `['put', 'patch']`) 
