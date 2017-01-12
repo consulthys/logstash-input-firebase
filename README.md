@@ -83,14 +83,14 @@ Here is how a sample event will look like:
 
 ### Configuration
 
-The following list enumerates all configuration parameters of the `rets` input:
+The following list enumerates all configuration parameters of the `firebase` input:
 
- * `url`: The Firebase URL endpoint (required)
- * `secret`: The secret to use for authenticating (optional)
- * `schedule`: the [schedule specification](#scheduling) determining when the `firebase` input must run (see below for details) (optional)
+ * `url`: (required)The Firebase URL endpoint
+ * `secret`: (optional) The secret to use for authenticating
+ * `schedule`: (optional) the [schedule specification](#scheduling) determining when the `firebase` input must run (see below for details)
    This setting must be omitted in order to use the streaming mode.
- * `target`: the name of the field into which to store the retrieved data (default: root) (optional)
- * `metadata_target`: the name of the field into which to store some metadata about the call (default: `@metadata`) (optional)
+ * `target`: (optional) the name of the field into which to store the retrieved data (default: root)
+ * `metadata_target`: (optional) the name of the field into which to store some metadata about the call (default: `@metadata`)
  * `events`: the set of streaming events to listen to (possible values are `put`, `patch`, `keep-alive`, `cancel`, `auth_revoked) (default: `['put', 'patch']`) 
  * `refs`: Any number of named queries mapped to a hash with the following parameters: (at least one required)
    * `path`: the database reference to query
