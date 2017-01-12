@@ -27,7 +27,7 @@ input {
     # Supports "cron", "every", "at" and "in" schedules by rufus scheduler
     schedule => { cron => "* * * * * UTC"}
     # A hash of request metadata info (timing, response headers, etc.) will be sent here
-    metadata_target => "@firebase_metadata"
+    metadata_target => "@meta"
     refs => {
       user_details => {
         path => "/user/details"
@@ -68,7 +68,7 @@ Here is how a sample event will look like:
                   "name" => "Jane"
   }
                },
-    "@firebase_metadata" => {
+                 "@meta" => {
                   "host" => "iMac.local",
                  "event" => "get"
             "query_name" => "user_details",
@@ -88,7 +88,8 @@ The following list enumerates all configuration parameters of the `rets` input:
  * `secret`: The secret to use for authenticating (optional)
  * `schedule`: the [schedule specification](#scheduling) determining when the `firebase` input must run (see below for details) (optional)
  * `target`: the name of the field into which to store the retrieved data (default: root) (optional)
- * `metadata_target`: the name of the field into which to store some metadata about the call (default: `@metadata` (optional)
+ * `metadata_target`: the name of the field into which to store some metadata about the call (default: `@metadata`) (optional)
+ * `events`: the set of streaming events to listen to (possible values are `put`, `patch`, `keep-alive`, `cancel`, `auth_revoked) (default: `['put', 'patch']`) 
  * `refs`: Any number of named queries mapped to a hash with the following parameters: (at least one required)
    * `path`: the database reference to query
    * `orderBy`: (not supported yet)
