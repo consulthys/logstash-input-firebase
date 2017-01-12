@@ -96,6 +96,10 @@ The following list enumerates all configuration parameters of the `firebase` inp
    * `path`: the database reference to query
    * `orderBy`: (not supported yet)
    * `limitToFirst`: (not supported yet) 
+ * `firebase_timeout`: (optional) The number of seconds to wait before the connection times out (default: 10s)
+ * `firebase_retries`: (optional) The number of retries to attempt in case of failures (default: 3)
+ * `firebase_auth_ttl`: (optional) The amount of time to wait before refreshing the authentication token (default: 82800s = 23h)
+                        Set to -1 to disable the auto-refresh of the authentication token
 
 ### Scheduling
 
